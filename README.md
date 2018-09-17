@@ -16,3 +16,9 @@ app.use('/public',express.static(__dirname+'/public'))
 * 前台模块
 * 后台模块
 * api模块
+使用app.use()进行模块划分
+``` javascript
+app.use('/admin',require('./router/admin'))
+app.use('/api',require('./router/api'))
+app.use('/',require('./router/main'))
+```
