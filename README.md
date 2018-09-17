@@ -11,3 +11,8 @@ express+nodejs+mysql
 //当用户访问的url以/public开始，则返回对应__dirname+'/public'
 app.use('/public',express.static(__dirname+'/public'))
 ```
+### 划分模块
+根据功能进心个模块划分
+* 前台模块
+* 后台模块
+* api模块
