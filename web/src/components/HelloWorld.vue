@@ -3,6 +3,7 @@
     <input type="text" name="username" placeholder="用户名" v-model="username"/>
     <input type="text" name="pass" placeholder="密码" v-model="password"/>
     <button @click="register">立即注册</button>
+    <el-button>123</el-button>
   </div>
 </template>
 
@@ -29,7 +30,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
+@import '../less/index.less';
+div{background-color: @theme-color;}
 h1, h2 {
   font-weight: normal;
 }

@@ -1,15 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
 export default new Router({
+  //mode:'history',
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  },
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+      path: '',
+      redirect: 'Login'
+    },
+    {
+      path: '/login',
+      name: 'Logine',
+      component: () => import('@/view/login/login'),
+      meta: {title: '知乎-有问题上知乎'}
+    },
   ]
 })
