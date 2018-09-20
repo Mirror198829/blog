@@ -8,12 +8,33 @@ let express = require('express')
 let swig = require('swig')
 //加载数据库模块
 let mongoose = require('mongoose')
-
+//加载body-parser，用来处理post提交来的数据
+let bodyParser = require('body-parser')
 let Mock = require('mockjs')
 
-let User = require('./models/User.js')
+let User = require('./models/User.js') 
 //创建app应用 =>Nodejs Http.createServer
 let app = express()
+//自定义中间件，设置跨域响应头
+// let allowCrossDomain = function (req, res, next) {
+//  res.header('Access-Control-Allow-Origin', '*');//自定义中间件，设置跨域需要的响应头。
+//  res.header('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+//  next();
+// }
+// app.use(allowCrossDomain)
+
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Origin", "*");
+    if (req.method == 'OPTIONS') {
+        /*让options请求快速返回*/
+        res.send(200);
+    }
+    else {
+        next();
+    }
+});
 //设置静态文件托管
 //当用户访问的url以/public开始，则返回对应__dirname+'/public'
 app.use('/public',express.static(__dirname+'/public'))
@@ -27,6 +48,10 @@ app.set('views','./views')
 app.set('view engine','html')
 //在开发过程中，需要取消模板缓存
 swig.setDefaults({cache:false})
+
+//bodyparser设置
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());// 解析 application/json
 
 /**
  * 根据不同的功能划分模块
