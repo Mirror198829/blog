@@ -19,5 +19,11 @@ export default new Router({
       component: () => import('@/view/login/login'),
       meta: {title: '知乎-有问题上知乎'}
     },
+    {
+      path: '/home',
+      name: 'Home',
+      component: () => import('@/view/home/home'),
+      meta: {title: '知乎'}
+    }
   ]
 })

@@ -36,23 +36,34 @@
           <div class="lgMain">
             <div class="title">
               <h1>知乎</h1>
-              <h5>注册知乎，发现更大的世界</h5>
+              <h5 v-if="!registerSuccess">注册知乎，发现更大的世界</h5>
             </div>
-            <el-form :model="registForm" :rules="registRules" ref="registForm">
+            <el-form v-if="!registerSuccess" status-icon :rules="registRules" :model="registForm" ref="registForm">
               <el-form-item prop="username">
                 <el-input v-model="registForm.username" placeholder="请输入用户名"></el-input>
               </el-form-item>
               <el-form-item prop="password">
                 <el-input v-model="registForm.password" ref="passwordinput" placeholder="请输入密码" type="password"></el-input>
               </el-form-item>
-              <el-form-item prop="password">
-                <el-input v-model="registForm.password" ref="passwordinput" placeholder="请再次输入密码" type="password"></el-input>
+              <el-form-item prop="checkPass">
+                <el-input v-model="registForm.checkPass" ref="passwordinput" placeholder="请再次输入密码" type="password"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="loginBtn" @click='submitRegistForm("registForm")'>注 &nbsp &nbsp册</el-button>
+                <el-button :loading="registForm.isLoading" type="primary" class="loginBtn" @click='submitRegistForm("registForm")'>注 &nbsp &nbsp册</el-button>
               </el-form-item>
             </el-form>          
-            <p class="info">注册即代表同意《知乎协议》《隐私政策》</p>
+            <p v-if="!registerSuccess" class="info">注册即代表同意《知乎协议》《隐私政策》</p>
+            <div class="successBox" v-if="registerSuccess">
+              <h4>
+                <i class="el-icon-success"></i>
+                <span>恭喜您注册成功!</span>
+              </h4>
+              <p>您可以在知乎疑难解惑</p>
+              <p>您可以在知乎进行信息查询</p>
+              <p>您可以在知乎发表信息</p>
+              <p>您可以在知乎寻找大牛交流</p>
+              <p>知乎一下，您就知道。。。</p>
+            </div>
           </div>
           <div class="lgFooter">
             已有帐号？<a href="javascript:void(0)" class="rotateTxt" @click="isFlip=!isFlip;resetForm('registForm')">登录</a>
@@ -68,11 +79,44 @@
 export default {
   name: '',
   data () {
+    let validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.registForm.checkPass !== '') {
+          this.$refs.registForm.validateField('checkPass');
+        }
+        callback();
+      }
+    }
+    let validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.registForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    }
+    let validateHasName = (rule, value, callback) => {
+      this.$http.get(`api/user/size?name=${this.registForm.username}`)
+      .then(res=>{
+         let hasName = res.data
+         if(hasName){
+          callback(new Error('用户名已经存在'))          
+         }else{
+          callback()
+         }
+      })
+    }
     return {
       isFlip:true,
+      registerSuccess:false,
       registForm:{
         username:'',
-        password:''
+        password:'',
+        checkPass:'',
+        isLoading:false
       },
       loginForm:{
         username:'',
@@ -80,10 +124,18 @@ export default {
       },
       registRules:{
         username:[
-          {required:true,message:'请输入用户名',trigger:'blur'}
+          {required:true,message:'请输入用户名',trigger:'blur'},
+          {pattern: /^[a-zA-Z\d]{3,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'},
+          {validator:validateHasName,trigger:'blur'}
         ],
         password:[
-          {required:true,message:'密码不得为空',trigger:'blur'}
+          {required:true,message:'密码不得为空',trigger:'blur'},
+          {validator: validatePass, trigger: 'blur' },
+          {pattern: /^[a-zA-Z\d]{1,8}$/,message: '只能输入不超过8位字母或数字',trigger:'blur'}
+        ],
+        checkPass: [
+          {validator: validatePass2, trigger: 'blur' },
+          {pattern: /^[a-zA-Z\d]{1,8}$/,message: '只能输入不超过8位字母或数字',trigger:'blur'}
         ]
       }
     }
@@ -92,14 +144,24 @@ export default {
     submitRegistForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this[formName].isLoading = true
+          let userInfo = this.registForm
+          this.$http.post('api/user/register', {
+            name: userInfo.username,
+            pass: userInfo.password
+          })
+          .then( res=>{
+            this[formName].isLoading = false
+            this.registerSuccess = true
+          })
         } else {
           return false;
         }
       });
     },
     resetForm(formName) {
-       this.$refs[formName].resetFields();
+       this.$refs[formName].resetFields()
+       this[formName].isLoading = false
     },
     getInfo(){
       alert(123)
@@ -128,6 +190,12 @@ export default {
             h1{color:@theme;font-weight:400;font-size:50px;line-height:2;}
             h5{color:@theme;font-weight:400;font-size:22px;margin-bottom:40px;}
             .info{flex:1;color:#8590a6;font-size:14px;display: flex;justify-content: center;align-items: center;}
+            .successBox{flex:1;margin-top:40px;padding:0 40px;
+              h4{font-size:25px;font-weight:400;display: flex;justify-content: center;align-items:center;margin-bottom:20px;
+                i{color:#28b541;font-size:40px;margin-right:15px;}
+              }
+              p{font-weight:300;text-align:left;line-height:2;text-indent:2em;}
+            }
           }
           .loginBtn{width: 100%;margin-top:10px;background-color: @theme;}
           .lgFooter{height: 58px;line-height:58px;background-color:#f6f6f6;color:#1a1a1a; 
