@@ -226,7 +226,7 @@ export default {
               h4{font-size:25px;font-weight:400;display: flex;justify-content: center;align-items:center;margin-bottom:20px;
                 i{color:#28b541;font-size:40px;margin-right:15px;}
               }
-              p{font-weight:300;text-align:left;line-height:2;text-indent:2em;}
+              p{font-weight:300;text-align:left;line-height:2;text-indent:2em;font-size:14px;}
             }
           }
           .loginBtn{width: 100%;margin-top:10px;background-color: @theme;}
