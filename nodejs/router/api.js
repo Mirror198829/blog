@@ -24,12 +24,12 @@ router.use(function(req,res,next){
  * 数据库查询
  */
 router.post('/user/register',(req,res,next)=>{
-	let userInfo = req.body
-	
-	let username = userInfo.username
-	let password = userInfo.password
+	res.writeHead(200,{'Content-Type':'text/html;charset=utf-8'})
+	let userInfo = req.body	
+	let name = userInfo.name
+	let pass = userInfo.pass
 
-	if(username == ''){
+	if(name == ''){
 		resData.code = 1
 		resData.message = '用户名不得为空'
 		res.json(resData)
@@ -39,7 +39,6 @@ router.post('/user/register',(req,res,next)=>{
 	user.save(function(err){
 		console.log('save status:',err ? 'failed' : 'success')
 	})
-
 	res.end('请求成功')
 })
 module.exports = router

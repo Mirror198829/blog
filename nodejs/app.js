@@ -15,15 +15,6 @@ let Mock = require('mockjs')
 let User = require('./models/User.js') 
 //创建app应用 =>Nodejs Http.createServer
 let app = express()
-//自定义中间件，设置跨域响应头
-// let allowCrossDomain = function (req, res, next) {
-//  res.header('Access-Control-Allow-Origin', '*');//自定义中间件，设置跨域需要的响应头。
-//  res.header('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
-//  next();
-// }
-// app.use(allowCrossDomain)
-
-
 //跨域处理
 app.all('*', function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');

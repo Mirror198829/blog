@@ -1,9 +1,9 @@
 /**
- * created by caojing on 2018/9/19
+ * created by caojing on 2018/9/25
  */
 let mongoose = require('mongoose')
 
 module.exports = new mongoose.Schema({
-	username:String,
-	password:String
+	name:String,
+	pass:String
 }) 
