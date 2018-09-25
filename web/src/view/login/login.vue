@@ -1,15 +1,15 @@
 <!-- 
 - @author:CaoJing
 - @create:2018/9/20
-- @lastEdit:2018/9/21
+- @lastEdit:2018/9/25
 - github:https://github.com/Mirror198829
 -->
 <template>
   <div class="loginPage">
     <div class="loginBox">
      <section class="container">
-      <div id="card" :class="{'flipped':isFlip}">
-        <figure class="back">
+      <div id="card">
+        <figure class="back"  v-if="!isFlip">
           <div class="lgMain">
             <div class="title">
               <h1>知乎</h1>
@@ -32,7 +32,7 @@
             没有帐号？<a href="javascript:void(0)" class="rotateTxt" @click="isFlip=!isFlip">注册</a>
           </div>
         </figure>
-        <figure class="front">
+        <figure class="front" v-if="isFlip">
           <div class="lgMain">
             <div class="title">
               <h1>知乎</h1>
@@ -69,7 +69,7 @@ export default {
   name: '',
   data () {
     return {
-      isFlip:false,
+      isFlip:true,
       registForm:{
         username:'',
         password:''
@@ -121,9 +121,9 @@ export default {
 .loginPage{
   height: 100%;background:#b8e5f8 url('../../assets/login/bg.png');background-repeat: no-repeat;background-size: cover;text-align:center;min-height:@containerH + 40px;min-width:@containerW + 20px;
   .loginBox{display: flex;justify-content: center;height: 100%;align-items: center;
-    .container { width: @containerW;height:@containerH;perspective: 2000px;
-      #card {width: 100%;height: 100%;position: relative;transform-style: preserve-3d;transition: transform 1s;
-        figure {display: block;width: 100%;height: 100%;backface-visibility: hidden;display: flex;flex-direction: column;
+    .container { width: @containerW;height:@containerH;
+      #card {width: 100%;height: 100%;
+        figure {width: 100%;height: 100%;display: flex;flex-direction: column;
           .lgMain{flex:1;display: flex;flex-direction:column;box-sizing: border-box;padding:0 40px;
             h1{color:@theme;font-weight:400;font-size:50px;line-height:2;}
             h5{color:@theme;font-weight:400;font-size:22px;margin-bottom:40px;}
@@ -135,8 +135,9 @@ export default {
           }
         }
         .front {background: #fff;backface-visibility:hidden;}
-        .back {transform: rotateY( 180deg );background-color: #fff;backface-visibility:hidden;}  
-        &.flipped {transform: rotateY( 180deg );}    
+        .back {background-color: #fff;}  
+        &.flipped {display: block;
+        }    
       } 
     }
   }
