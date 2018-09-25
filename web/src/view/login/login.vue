@@ -9,50 +9,52 @@
     <div class="loginBox">
      <section class="container">
       <div id="card">
-        <figure class="back"  v-if="!isFlip">
+        <figure class="front"  v-if="isFlip">
           <div class="lgMain">
             <div class="title">
               <h1>知乎</h1>
               <h5>登录知乎，发现更大的世界</h5>
             </div>
-            <el-form>
-              <el-form-item>
-                <el-input v-model="loginForm.username" @keyup.enter.native="$refs.passwordinput.focus()" placeholder="请输入用户名"></el-input>
+            <el-form :rules="loginRules" :model="loginForm" ref="loginForm" style="position: relative;">
+              <p class="errTip" v-if="showErrMsg">用户名或者密码有错</p>
+              <el-form-item prop="name">
+                <el-input v-model="loginForm.name" placeholder="请输入用户名" @focus="showErrMsg = false"></el-input>
+              </el-form-item>
+
+              <el-form-item prop="pass">
+                <el-input v-model="loginForm.pass" placeholder="请输入密码" type="password" @focus="showErrMsg = false"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-input v-model="loginForm.password" @keyup.enter.native="onLoginBtnClick" ref="passwordinput" placeholder="请输入密码" type="password"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" class="loginBtn"  @mousedown.prevent="getInfo()">登 &nbsp &nbsp陆</el-button>
+                <el-button type="primary" class="loginBtn"  @click="submitForm('loginForm')" :loading="loginForm.isLoading">登 &nbsp &nbsp录</el-button>
               </el-form-item>
             </el-form>           
             <p class="info">二维码登陆 · 海外手机登录 · 社交账号登录</p>
           </div>
           <div class="lgFooter">
-            没有帐号？<a href="javascript:void(0)" class="rotateTxt" @click="isFlip=!isFlip">注册</a>
+            还没有帐号？<a href="javascript:void(0)" class="rotateTxt" @click="isFlip=!isFlip;registerSuccess=false;resetForm('loginForm')">注册</a>
           </div>
         </figure>
-        <figure class="front" v-if="isFlip">
+        <figure class="back" v-if="!isFlip">
           <div class="lgMain">
             <div class="title">
               <h1>知乎</h1>
-              <h5 v-if="!registerSuccess">注册知乎，发现更大的世界</h5>
+              <h5 v-show="!registerSuccess">注册知乎，发现更大的世界</h5>
             </div>
-            <el-form v-if="!registerSuccess" status-icon :rules="registRules" :model="registForm" ref="registForm">
+            <el-form v-show="!registerSuccess" :rules="registRules" :model="registForm" ref="registForm">
               <el-form-item prop="username">
-                <el-input v-model="registForm.username" placeholder="请输入用户名"></el-input>
+                <el-input v-model="registForm.username" placeholder="请输入注册用户名"></el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="registForm.password" ref="passwordinput" placeholder="请输入密码" type="password"></el-input>
+                <el-input v-model="registForm.password" ref="passwordinput" placeholder="请输入注册密码" type="password"></el-input>
               </el-form-item>
               <el-form-item prop="checkPass">
                 <el-input v-model="registForm.checkPass" ref="passwordinput" placeholder="请再次输入密码" type="password"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button :loading="registForm.isLoading" type="primary" class="loginBtn" @click='submitRegistForm("registForm")'>注 &nbsp &nbsp册</el-button>
+                <el-button :loading="registForm.isLoading" type="primary" class="loginBtn" @click='submitForm("registForm")'>注 &nbsp &nbsp册</el-button>
               </el-form-item>
             </el-form>          
-            <p v-if="!registerSuccess" class="info">注册即代表同意《知乎协议》《隐私政策》</p>
+            <p v-show="!registerSuccess" class="info">注册即代表同意《知乎协议》《隐私政策》</p>
             <div class="successBox" v-if="registerSuccess">
               <h4>
                 <i class="el-icon-success"></i>
@@ -110,6 +112,7 @@ export default {
       })
     }
     return {
+      showErrMsg:false,
       isFlip:true,
       registerSuccess:false,
       registForm:{
@@ -119,8 +122,9 @@ export default {
         isLoading:false
       },
       loginForm:{
-        username:'',
-        password:''
+        name:'',
+        pass:'',
+        isLoading:false
       },
       registRules:{
         username:[
@@ -137,23 +141,53 @@ export default {
           {validator: validatePass2, trigger: 'blur' },
           {pattern: /^[a-zA-Z\d]{1,8}$/,message: '只能输入不超过8位字母或数字',trigger:'blur'}
         ]
+      },
+      loginRules:{
+        name:[
+          {required:true,message:'请输入登录用户名',trigger:'blur'},
+          {pattern: /^[a-zA-Z\d]{3,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'}
+        ],
+        pass:[
+          {required:true,message:'登录密码不得为空',trigger:'blur'},
+          {pattern: /^[a-zA-Z\d]{1,8}$/,message: '只能输入不超过8位字母或数字',trigger:'blur'}
+        ]
       }
     }
   },
   methods:{
-    submitRegistForm(formName) {
+    submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this[formName].isLoading = true
-          let userInfo = this.registForm
-          this.$http.post('api/user/register', {
-            name: userInfo.username,
-            pass: userInfo.password
-          })
-          .then( res=>{
-            this[formName].isLoading = false
-            this.registerSuccess = true
-          })
+          let userInfo = this[formName]
+          if(formName == 'registForm'){
+            this.$http.post('api/user/register', {
+              name: userInfo.username,
+              pass: userInfo.password
+            })
+            .then( res=>{            
+              setTimeout(()=>{
+                this.registerSuccess = true
+                this.resetForm(formName)
+              },2000)
+            })
+          }else{
+            this.$http.post('api/user/login',{
+              name: userInfo.name,
+              pass: userInfo.pass
+            })
+            .then(res=>{
+              let status = res.data
+              if(status){
+                setTimeout(()=>{
+                  this.$router.push({name:'Home'})
+                },2000)
+              }else{
+                this.resetForm(formName) 
+                this.showErrMsg = true
+              }
+            })
+          }         
         } else {
           return false;
         }
@@ -162,9 +196,6 @@ export default {
     resetForm(formName) {
        this.$refs[formName].resetFields()
        this[formName].isLoading = false
-    },
-    getInfo(){
-      alert(123)
     }
   },
   mounted(){},
@@ -187,6 +218,7 @@ export default {
       #card {width: 100%;height: 100%;
         figure {width: 100%;height: 100%;display: flex;flex-direction: column;
           .lgMain{flex:1;display: flex;flex-direction:column;box-sizing: border-box;padding:0 40px;
+            .errTip{font-size:12px;color:#f56c6c;text-align: left;position: absolute;top:-22px;}
             h1{color:@theme;font-weight:400;font-size:50px;line-height:2;}
             h5{color:@theme;font-weight:400;font-size:22px;margin-bottom:40px;}
             .info{flex:1;color:#8590a6;font-size:14px;display: flex;justify-content: center;align-items: center;}
