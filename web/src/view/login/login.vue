@@ -180,6 +180,8 @@ export default {
               let status = res.data
               if(status){
                 setTimeout(()=>{
+                  let name = userInfo.name
+                  this.$store.commit('saveUserName',name)
                   this.$router.push({name:'Home'})
                 },2000)
               }else{
