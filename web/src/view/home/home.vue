@@ -25,7 +25,13 @@
           <i class="popover fa fa-bell iconR"></i>
           <i class="msg fa fa-wechat iconR"></i>
           <i class="user iconR">
-            <img src="https://pic4.zhimg.com/ccc6ed02d8dd330fcd0163d4bbb9abaf_is.jpg">
+            <img src="https://avatars0.githubusercontent.com/u/12668121?s=40&v=4">
+            <ul class="userDetail">
+              <li class="menuItem">
+                <i class="fa fa-user"></i>
+                <span>{{name}}</span>
+              </li>
+            </ul>
           </i>
         </div>
       </div>
@@ -46,15 +52,20 @@ export default {
       
     }
   },
+  computed:{
+    name(){
+      return this.$store.state.name  //必须得使用computed,否则无法更新视图
+    },
+  },
   methods:{
-    optimizeFixed(){
-      $(document).on('scroll', function () {
-         $('#topHeader').scrollLeft($(document).scrollLeft())
-       })
-    }
+    // optimizeFixed(){
+    //   $(document).on('scroll', function () {
+    //      $('#topHeader').scrollLeft($(document).scrollLeft())
+    //    })
+    // }
   },
   mounted(){
-    this.optimizeFixed() //解决fixed布局bug
+    //this.optimizeFixed() //解决fixed布局bug
   },
   created(){}
 }
@@ -66,8 +77,8 @@ export default {
 @baseTheme:#fff;
 @centerW:1000px;
 @paddingW:16px;
-.home{width:100%;min-height:100%;background-color: rgb(246, 246, 246);min-width: @centerW + @paddingW + @paddingW;
-  header{background-color: @baseTheme;height:@headerH;position:fixed;top:0;width:100%;box-shadow: 0 1px 3px rgba(26,26,26,.1);overflow: hidden;
+.home{width:100%;height:100%;background-color: rgb(246, 246, 246);min-width: @centerW + @paddingW + @paddingW;display: flex;flex-direction: column;
+  header{background-color: @baseTheme;height:@headerH;width:100%;box-shadow: 0 1px 3px rgba(26,26,26,.1);
     .header{height: 100%;width: @centerW;padding:0 @paddingW;margin:0 auto;}
     .appHeader{height: 100%;display: flex;justify-content: space-between;
       .headerLeft{height:100%;display: flex;align-items: center;
@@ -81,11 +92,14 @@ export default {
       }
       .headerRight{height: 100%;display: flex;align-items: center;
         .iconR{margin-left:40px;color:#8590a6;font-size:20px;}
-        .user{border-radius:2px;overflow: hidden;width: 30px;height:30px;}
+        .user{border-radius:2px;width: 30px;height:30px;position: relative;
+          img{width: 30px;height:30px;border-radius:5px;}
+          .userDetail{position: absolute;top:50px;border:1px solid red;right: 0;width:78px;padding:5px 0px;background-color: #fff;box-shadow: 1px 1px 1px #ccc;}
+        }
       }
     }
   }
-  .main{width:100%;min-height: 100%;box-sizing: border-box;padding-top:@headerH + 10px;
+  .main{width:100%;flex:1;box-sizing: border-box;padding-top:10px;overflow-y: auto;
     .routerBody{width:@centerW;background-color: @baseTheme;margin:0 auto;height:1300px;padding:0 @paddingW;}
   }
 }
