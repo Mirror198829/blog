@@ -28,8 +28,16 @@
             <img src="https://avatars0.githubusercontent.com/u/12668121?s=40&v=4">
             <ul class="userDetail">
               <li class="menuItem">
-                <i class="fa fa-user"></i>
+                <i class="fa fa-user menuIcon"></i>
                 <span>{{name}}</span>
+              </li>
+              <li class="menuItem">
+                <i class="fa fa-cog menuIcon"></i>
+                <span>设置</span>
+              </li>
+              <li class="menuItem" @click="exitPage">
+                <i class="fa fa-power-off menuIcon"></i>
+                <span>退出</span>
               </li>
             </ul>
           </i>
@@ -58,14 +66,13 @@ export default {
     },
   },
   methods:{
-    // optimizeFixed(){
-    //   $(document).on('scroll', function () {
-    //      $('#topHeader').scrollLeft($(document).scrollLeft())
-    //    })
-    // }
+    exitPage(){
+      this.$store.commit('saveUserName','')
+      this.$router.push({name:'Login'})
+    }
   },
   mounted(){
-    //this.optimizeFixed() //解决fixed布局bug
+    
   },
   created(){}
 }
@@ -78,7 +85,7 @@ export default {
 @centerW:1000px;
 @paddingW:16px;
 .home{width:100%;height:100%;background-color: rgb(246, 246, 246);min-width: @centerW + @paddingW + @paddingW;display: flex;flex-direction: column;
-  header{background-color: @baseTheme;height:@headerH;width:100%;box-shadow: 0 1px 3px rgba(26,26,26,.1);
+  header{background-color: @baseTheme;height:@headerH;width:100%;box-shadow: 1px 1px 3px rgba(26,26,26,.1);position: relative;z-index: 10;
     .header{height: 100%;width: @centerW;padding:0 @paddingW;margin:0 auto;}
     .appHeader{height: 100%;display: flex;justify-content: space-between;
       .headerLeft{height:100%;display: flex;align-items: center;
@@ -94,13 +101,21 @@ export default {
         .iconR{margin-left:40px;color:#8590a6;font-size:20px;}
         .user{border-radius:2px;width: 30px;height:30px;position: relative;
           img{width: 30px;height:30px;border-radius:5px;}
-          .userDetail{position: absolute;top:50px;border:1px solid red;right: 0;width:78px;padding:5px 0px;background-color: #fff;box-shadow: 1px 1px 1px #ccc;}
+          @userPadding:5px;
+          @borderW:8px;
+          .userDetail{position: absolute;top:50px;right:0;padding:@userPadding 0px;background-color: #fff;box-shadow:0 5px 20px rgba(26,26,26,.1);
+            &:before {content: '';display: inline-block;border:@borderW solid transparent;border-bottom-color:#fff;top:-@userPadding - @borderW - 2px;right:9px;position: absolute;z-index: 1000}
+            .menuItem{width:78px;padding: 0 20px;height: 36px;font-size:14px;display: flex;align-items: center;color:@fontColor;font-style:normal;cursor: pointer;
+              &:hover{background-color: #f6f6f6}
+              .menuIcon{margin-right:6px;}
+            }
+          }
         }
       }
     }
   }
-  .main{width:100%;flex:1;box-sizing: border-box;padding-top:10px;overflow-y: auto;
-    .routerBody{width:@centerW;background-color: @baseTheme;margin:0 auto;height:1300px;padding:0 @paddingW;}
+  .main{width:100%;flex:1;padding-top:10px;overflow-y: auto;overflow-x: hidden;
+    .routerBody{width:@centerW;background-color: @baseTheme;margin:0 auto;height:1000px;padding:0 @paddingW;}
   }
 }
 

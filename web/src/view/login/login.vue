@@ -129,7 +129,7 @@ export default {
       registRules:{
         username:[
           {required:true,message:'请输入用户名',trigger:'blur'},
-          {pattern: /^[a-zA-Z\d]{3,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'},
+          {pattern: /^[a-zA-Z\d\u4e00-\u9fa5]{1,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'},
           {validator:validateHasName,trigger:'blur'}
         ],
         password:[
@@ -145,7 +145,7 @@ export default {
       loginRules:{
         name:[
           {required:true,message:'请输入登录用户名',trigger:'blur'},
-          {pattern: /^[a-zA-Z\d]{3,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'}
+          {pattern: /^[a-zA-Z\d\u4e00-\u9fa5]{1,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'}
         ],
         pass:[
           {required:true,message:'登录密码不得为空',trigger:'blur'},

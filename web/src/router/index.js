@@ -15,7 +15,7 @@ export default new Router({
     },
     {
       path: '/login',
-      name: 'Logine',
+      name: 'Login',
       component: () => import('@/view/login/login'),
       meta: {title: '知乎-有问题上知乎'}
     },
