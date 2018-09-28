@@ -41,7 +41,7 @@ export default {
 @paddingW:16px;
 .home{width:100%;height:100%;background-color: rgb(246, 246, 246);min-width: @centerW + @paddingW + @paddingW;display: flex;flex-direction: column;
   .main{width:100%;flex:1;padding-top:10px;overflow-y: auto;overflow-x: hidden;
-    .routerBody{width:@centerW;background-color: @baseTheme;margin:0 auto;height:1000px;padding:0 @paddingW;}
+    .routerBody{width:@centerW;margin:0 auto;height:1000px;padding:0 @paddingW;}
   }
 }
 
