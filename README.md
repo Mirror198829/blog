@@ -22,3 +22,7 @@ app.use('/admin',require('./router/admin'))
 app.use('/api',require('./router/api'))
 app.use('/',require('./router/main'))
 ```
+
+## web工程
+* 路由守卫
+* vuex 和 sessionStorage
