@@ -74,7 +74,7 @@ export default {
 @baseTheme:#fff;
 @centerW:1000px;
 @paddingW:16px;
-header{background-color: @baseTheme;height:@headerH;width:100%;box-shadow: 1px 1px 3px rgba(26,26,26,.1);position: relative;z-index: 10;padding-right:8px;box-sizing:border-box;
+header{background-color: @baseTheme;height:@headerH;width:100%;box-shadow: 1px 1px 3px rgba(26,26,26,.1);position: relative;z-index: 10;box-sizing:border-box;
     .header{height: 100%;width: @centerW;padding:0 @paddingW;margin:0 auto;}
     .appHeader{height: 100%;display: flex;justify-content: space-between;
       .headerLeft{height:100%;display: flex;align-items: center;

@@ -6,7 +6,19 @@
 -->
 <template>
   <div class="homePage">
-    <div class="pageLeft">123</div>
+    <div class="pageLeft">
+      <ul class="tabs">
+        <li>
+          <a>推荐</a>
+        </li>
+        <li>
+          <a>关注</a>
+        </li>
+        <li>
+          <a>热榜</a>
+        </li>
+      </ul>
+    </div>
     <div class="pageRight">
       <div class="card global">
         <li class="globalWriteItem" v-for="item in globalWriteLst">
@@ -75,7 +87,14 @@ export default {
 @import '../../less/index.less';
 @boundaryW:10px;
 .homePage{display: flex;
-  .pageLeft{background-color: #fff;margin-right:@boundaryW;width: 690px;}
+  .pageLeft{background-color: #fff;margin-right:@boundaryW;width: 690px;
+    .tabs{height: 58px;display: flex;align-items: center;border-bottom:1px solid #f1f3f7;
+      li{padding:0 20px;height:100%;display: flex;
+        a{width:100%;height:100%;display:flex;align-items: center;box-sizing: border-box;}
+        &:first-child a{border-bottom:3px solid @theme;font-weight:700;}
+      }
+    }
+  }
   .pageRight{flex:1;
     .card{width:100%;background-color: #fff;box-sizing:border-box;padding:0 5px;display: flex;margin-bottom: @boundaryW;
     }
