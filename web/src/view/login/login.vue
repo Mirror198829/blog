@@ -1,7 +1,7 @@
 <!-- 
 - @author:CaoJing
 - @create:2018/9/20
-- @lastEdit:2018/9/25
+- @lastEdit:2018/9/28
 - github:https://github.com/Mirror198829
 -->
 <template>
@@ -129,7 +129,7 @@ export default {
       registRules:{
         username:[
           {required:true,message:'请输入用户名',trigger:'blur'},
-          {pattern: /^[a-zA-Z\d\u4e00-\u9fa5]{1,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'},
+          {pattern: /^[a-zA-Z\d\u4e00-\u9fa5]{1,10}$/,message: '只能输入2-10位字母数字中文',trigger:'blur'},
           {validator:validateHasName,trigger:'blur'}
         ],
         password:[
@@ -145,7 +145,7 @@ export default {
       loginRules:{
         name:[
           {required:true,message:'请输入登录用户名',trigger:'blur'},
-          {pattern: /^[a-zA-Z\d\u4e00-\u9fa5]{1,10}$/,message: '只能输入3-10位字母或数字',trigger:'blur'}
+          {pattern: /^[a-zA-Z\d\u4e00-\u9fa5]{1,10}$/,message: '只能输入2-10位字母数字中文',trigger:'blur'}
         ],
         pass:[
           {required:true,message:'登录密码不得为空',trigger:'blur'},
@@ -182,7 +182,12 @@ export default {
                 setTimeout(()=>{
                   let name = userInfo.name
                   this.$store.commit('saveUserName',name)
-                  this.$router.push({name:'Home'})
+                  let path = this.$route.query.redirect
+                  if(path){
+                    this.$router.push({ path: path })
+                  }else{
+                    this.$router.push({name:'HomePage'})
+                  }
                 },2000)
               }else{
                 this.resetForm(formName) 
