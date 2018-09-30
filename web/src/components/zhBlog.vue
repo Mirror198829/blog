@@ -11,6 +11,10 @@
         浑沌七日死： 当然有啊，我以前在深圳搬砖的时候，前后的工友都是捉摸不透的。可能你前面那个美工，拿着10000元和你喜笑颜颜感叹生活不易，都是混一口饭吃…<span class="readAll">阅读全文</span>
       </div>
     </div>
+    <div class="blogActions">
+      <el-button type="primary" plain size="mini" icon="el-icon-caret-top">赞同 1.8K</el-button>
+      <el-button type="primary" plain size="mini" icon="el-icon-caret-bottom"></el-button>
+    </div>
   </div>
 </template>
 
@@ -38,7 +42,7 @@ export default {
   .blogTitle{font-size:18px;color:@fontColor;font-weight:600;}
   .blogMain{
     .blogContent{line-height: 1.6;font-size: 15px;color:@fontColor;margin-top:9px;
-      .readAll{color:@theme;}
+      .readAll{color:#175199;margin-left:4px}
     }
     
   }
