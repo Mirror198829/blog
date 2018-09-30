@@ -18,6 +18,11 @@
           <a>热榜</a>
         </li>
       </ul>
+      <ul>
+        <li v-for="item in 10">
+          <zh-blog></zh-blog>
+        </li>
+      </ul>
     </div>
     <div class="pageRight">
       <div class="card global">
@@ -46,8 +51,12 @@
 </template>
 
 <script>
+import zhBlog from '@/components/zhBlog'
 export default {
-  name: '',
+  name: 'home',
+  components:{
+    zhBlog
+  },
   data () {
     return {
       globalWriteLst:[
@@ -71,8 +80,6 @@ export default {
         {icon:'fa-pencil-square',txt:'公共编辑动态',tag:''}
       ]
     }
-  },
-  components:{
   },
   methods:{
   },
