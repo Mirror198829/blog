@@ -4,6 +4,7 @@
 let express = require('express')
 let router = express.Router()
 let User = require('../models/User.js') 
+let News = require('../models/News.js')
 
 //统一数据返回格式
 let resData
@@ -82,5 +83,15 @@ router.post('/user/login',(req,res,next)=>{
 		}
 		res.send(validate)
 	})
+})
+/**
+ * 获取news
+ * 
+ */
+router.get('/news',(req,res,next)=>{
+	News.find().then(news =>{
+		console.log(news)
+		res.send(news)
+	})	
 })
 module.exports = router

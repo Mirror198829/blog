@@ -19,8 +19,8 @@
         </li>
       </ul>
       <ul>
-        <li v-for="item in 10">
-          <zh-blog></zh-blog>
+        <li v-for="item in newLst">
+          <zh-blog :blog-detail="item"></zh-blog>
         </li>
       </ul>
     </div>
@@ -78,13 +78,20 @@ export default {
         {icon:'fa-tty',txt:'社区服务中心',tag:''},
         {icon:'fa-cc',txt:'版权服务中心',tag:''},
         {icon:'fa-pencil-square',txt:'公共编辑动态',tag:''}
-      ]
+      ],
+      newLst:[]
     }
   },
   methods:{
+    getNews(){
+      this.$http.get('api/news')
+      .then(res=>{
+        this.newLst = res.data
+      })
+    }
   },
   mounted(){
-    
+    this.getNews()
   },
   created(){}
 }
