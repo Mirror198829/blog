@@ -19,26 +19,26 @@
         </li>
       </ul>
       <ul>
-        <li v-for="item in newLst">
+        <li v-for="(item,key) in newLst" :key="key">
           <zh-blog :blog-detail="item"></zh-blog>
         </li>
       </ul>
     </div>
     <div class="pageRight">
       <div class="card global">
-        <li class="globalWriteItem" v-for="item in globalWriteLst">
+        <li class="globalWriteItem" :key="key" v-for="(item,key) in globalWriteLst">
           <i class="fa globalWriteItemIcon" :class="item.icon"></i>
           <span>{{item.txt}}</span>
         </li>
       </div>
       <div class="card category">
-        <li class='categoryItem' v-for="item in categoryLst" @mouseover="item.isHover = true" @mouseout='item.isHover = false'>
+        <li class='categoryItem' :key="key" v-for="(item,key) in categoryLst" @mouseover="item.isHover = true" @mouseout='item.isHover = false'>
           <i class="fa" :class="item.icon" :style="{color:item.color}"></i>
           <span :style="{color:item.isHover?item.color:'#8590a6'}">{{item.txt}}</span>
         </li>
       </div>
       <div class="sideBar">
-        <li class="sideBarItem" v-for="item in sideBarLst">
+        <li class="sideBarItem" :key="key" v-for="(item,key) in sideBarLst">
           <div class="sideBarItemLeft">
             <i class="fa" :class="item.icon"></i>
             <span>{{item.txt}}</span>

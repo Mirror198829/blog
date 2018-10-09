@@ -16,7 +16,7 @@
       <el-button type="primary" plain size="mini" icon="el-icon-caret-bottom"></el-button>
       <div class="action">
         <i class="fa fa-comment"></i>
-        <span>{{blogDetail.comment}}条评论</span>
+        <span>{{comment}}条评论</span>
       </div>
       <div class="action">
         <i class="fa fa-send"></i>
@@ -47,6 +47,25 @@ export default {
       
     }
   },
+  computed:{
+    comment(){
+      let comment = this.blogDetail.comment
+      return toThousands(comment)
+      function toThousands(num) {
+           var result = [ ], counter = 0;
+           num = (num || 0).toString().split('');//把数字打成数组
+           for (var i = num.length - 1; i >= 0; i--) {
+               counter++;
+               result.unshift(num[i]);
+               if (!(counter % 3) && i != 0) { result.unshift(','); }
+           }
+           return result.join('');
+       }  
+    },
+    agreeNum(){
+
+    }
+  },
   methods:{
 
   },
@@ -72,8 +91,7 @@ export default {
   .blogMain{
     .blogContent{line-height: 1.6;font-size: 15px;color:@fontColor;margin-top:9px;
       .readAll{color:#175199;margin-left:4px}
-    }
-    
+    } 
   }
   .blogActions{display: flex;height:28px;align-items: center;margin-top:10px;
     .action{color:#8590a6;font-size:14px;cursor: pointer;margin-left:24px;display: flex;align-items: center;

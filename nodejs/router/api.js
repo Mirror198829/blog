@@ -85,12 +85,11 @@ router.post('/user/login',(req,res,next)=>{
 	})
 })
 /**
- * 获取news
+ * 获取news信息
  * 
  */
 router.get('/news',(req,res,next)=>{
 	News.find().then(news =>{
-		console.log(news)
 		res.send(news)
 	})	
 })
