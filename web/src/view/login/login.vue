@@ -1,8 +1,8 @@
 /*
  * @Author: caojing 
  * @Date: 2018-10-09 20:49:23 
- * @Last Modified by:   caojing 
- * @Last Modified time: 2018-10-09 20:49:23 
+ * @Last Modified by: caojing
+ * @Last Modified time: 2018-10-09 20:52:07
  */
 <!--
 - @author:CaoJing
@@ -31,7 +31,7 @@
                 <el-input v-model="loginForm.pass" placeholder="请输入密码" type="password" @focus="showErrMsg = false"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" class="loginBtn"  @click="submitForm('loginForm')" :loading="loginForm.isLoading">登 &nbsp &nbsp录</el-button>
+                <el-button type="primary" class="loginBtn"  @click="submitForm('loginForm')" :loading="loginForm.isLoading">登 &nbsp; &nbsp;录</el-button>
               </el-form-item>
             </el-form>           
             <p class="info">二维码登陆 · 海外手机登录 · 社交账号登录</p>
@@ -57,7 +57,7 @@
                 <el-input v-model="registForm.checkPass" ref="passwordinput" placeholder="请再次输入密码" type="password"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button :loading="registForm.isLoading" type="primary" class="loginBtn" @click='submitForm("registForm")'>注 &nbsp &nbsp册</el-button>
+                <el-button :loading="registForm.isLoading" type="primary" class="loginBtn" @click='submitForm("registForm")'>注 &nbsp; &nbsp;册</el-button>
               </el-form-item>
             </el-form>          
             <p v-show="!registerSuccess" class="info">注册即代表同意《知乎协议》《隐私政策》</p>
