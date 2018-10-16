@@ -10,7 +10,7 @@
       <div class="headerLeft">
         <strong>知 乎</strong>
         <nav>
-          <a href="#">首页</a>
+          <a href="#/homePage">首页</a>
           <a href="#">发现</a>
           <a href="#">话题</a>
         </nav>
@@ -27,7 +27,7 @@
         <i class="user iconR">
           <img @click="showUserDetail = !showUserDetail" src="https://avatars0.githubusercontent.com/u/12668121?s=40&v=4">
           <ul class="userDetail" v-if="showUserDetail">
-            <li class="menuItem">
+            <li class="menuItem" @click="goToUser">
               <i class="fa fa-user menuIcon"></i>
               <span>{{$store.getters.userName}}</span>
             </li>
@@ -59,6 +59,10 @@ export default {
     exitPage(){   
       this.$router.push({name:'Login'})
       this.$store.commit('exitPage')
+    },
+    goToUser(){
+      this.showUserDetail = false
+      this.$router.push({name:'User'})  
     }
   },
   mounted(){

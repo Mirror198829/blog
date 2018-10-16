@@ -30,6 +30,12 @@ let router = new Router({
         component: () =>
           import ('@/view/home/homePage'),
         meta: { title: '知乎', requireAuth: true },
+      },{
+        path:'/user',
+        name:'User',
+        component:() =>
+          import ('@/view/user/user'),
+        meta: {title:'个人用户',requireAuth:true}
       }]
     }
   ]
